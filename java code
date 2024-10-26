@@ -1,0 +1,180 @@
+import java.util.Scanner;
+
+class linked {
+
+    class Node {
+        int data;
+        Node next;
+
+        
+         public Node(int t) {
+            data = t;
+            next = null;
+        }
+    }
+
+    
+    Node head = null;
+
+    
+    public void insertFirst(int t) {
+        
+        Node New = new Node(t);
+
+        
+        if (head == null) {
+            head = New;
+        } else {
+            
+            New.next=head;
+            head=New;
+            }
+           
+        }
+    
+
+   
+     void display() {
+       if(head == null ){
+        System.out.println("empty");
+       }
+       else{
+        Node temp = head;
+        while (temp!= null) {
+            System.out.print(temp.data+" ");
+            temp =temp.next;
+        }
+       }
+
+       
+    }
+    void deletefirst(){
+        if (head== null){
+            System.out.println("Underflow");
+        } else {
+            System.out.println(head.data +" deleted");
+            head=head.next;
+        }
+    }
+
+    void insertLast( int t){
+        Node New = new Node(t);
+        if (head==null)
+        head=New;
+        else{
+            Node temp=head;
+            while (temp.next!=null) { 
+                temp= temp.next;
+              //  temp.next=New;
+            }
+            temp.next=New;
+        }
+    }
+    void deletelast(){
+        if (head== null){
+            System.out.println("Underflow");
+        } 
+        else if (head.next==null){
+            System.out.println(head.data +" deleted");
+            head=head.next;
+            head=null;
+        } 
+        else{
+            Node temp =head;
+            Node loc = head.next;
+            while(loc.next!=null){
+                temp = loc;
+                loc= loc.next;
+            }
+            System.out.println(loc.data+ " deleted at last");
+            temp.next=null;
+        }
+    }
+    void insertposition(int t,int p){
+        Node New=new Node(t);
+        if(p==1){
+            New.next=head;
+            head=New;
+        }else if(p<=0){
+            System.out.println("Invalid position");
+        }
+         else {
+            Node temp = head;
+            for (int i =1; i<p-2;i++){
+                temp= temp.next;
+                if(temp==null){
+                    System.out.println("List is small");
+                    return;
+                }
+            }
+            New.next=temp.next;
+            temp.next=New;
+
+        }
+    }
+    void deleteposition(int p){
+        if (head==null)
+        System.out.println("Overflow");
+        else if (p==1){
+            System.out.println(head.data+"at position");
+            head=head.next;
+
+        }
+        else{
+            Node temp = head;
+            Node loc = head.next;
+            for(int i =1;i<p-2;i++){
+                temp=loc;
+                loc=loc.next;
+                if(loc==null){
+                    System.out.println("List is small");
+                    return;
+                }
+                System.out.println(loc.data+"deleted at position");
+                temp.next=loc.next;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        linked l1=new linked();
+       Scanner sc = new Scanner(System.in);
+       while (true) {
+        System.out.print("Press 1 to insert, 2 to display and 3 to exit and 4 for delete  and 5 for insert at last  and enter 6 to delete from last and 7 for insert at position and 8 for deleteing at position=");
+        int c = sc.nextInt();
+        if (c==1){
+            System.out.print("Enter values=");
+            int t =sc.nextInt();
+            l1.insertFirst(t);
+        } 
+        else if (c==2){
+        l1.display();
+        System.out.println();
+        }
+        else if (c==4)
+        l1.deletefirst(); 
+        else if(c==5){
+            System.out.print("Enter values for last=");
+            int n =sc.nextInt();
+            l1.insertLast(n);
+        }
+        else if (c==6){
+            l1.deletelast();
+        }
+        else if (c==7){
+            System.out.print("Enter values for position =");
+            int a =sc.nextInt();
+            System.out.print("Enter position=");
+            int p=sc.nextInt();
+            l1.insertposition(a, p);
+        }
+        else if (c==3) {
+            System.out.println(" ");
+        break;
+        
+        }
+      }
+ 
+    }
+    }
+
