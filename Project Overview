@@ -1,0 +1,2 @@
+Project Overview
+This project aims to build a real-time blood donation management system to connect blood donors with blood banks efficiently. Users can register, log in, find nearby blood banks, and schedule donation times. The system will display blood bank availability, manage donor scheduling, and provide real-time updates on blood stocks if implemented further. The back end will manage database interactions and business logic, while the front end will provide a user-friendly interface for both users and admins 
