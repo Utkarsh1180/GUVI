@@ -1,0 +1,28 @@
+BloodBankManagementSystem/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── dao/
+│   │   │   │   ├── DatabaseConnection.java
+│   │   │   │   ├── BloodBankDAO.java
+│   │   │   │   ├── UserDAO.java
+│   │   │   ├── model/
+│   │   │   │   ├── BloodBank.java
+│   │   │   │   ├── User.java
+│   │   │   ├── service/
+│   │   │   │   ├── BloodBankService.java
+│   │   │   │   ├── UserService.java
+│   │   │   │   ├── DonationService.java
+│   │   │   ├── ui/
+│   │   │   │   ├── MainUI.java
+│   │   │   │   ├── UserUI.java
+│   │   │   │   ├── BloodBankUI.java
+│   │   │   │   ├── DonationUI.java
+│   │   │   ├── Main.java
+├── resources/
+│   ├── db/
+│   │   ├── schema.sql
+│   │   ├── data.sql
+├── pom.xml
+└── README.md
+
