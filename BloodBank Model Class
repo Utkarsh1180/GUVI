@@ -1,0 +1,56 @@
+public class BloodBank {
+    private int id;
+    private String name;
+    private String city;
+    private String bloodType;
+    private int availability;
+
+    public BloodBank(int id, String name, String city, String bloodType, int availability) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.bloodType = bloodType;
+        this.availability = availability;
+    }
+
+    // Getters and setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public int getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(int availability) {
+        this.availability = availability;
+    }
+}
