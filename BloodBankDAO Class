@@ -1,0 +1,95 @@
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class BloodBankDAO {
+    
+    // Add a new blood bank entry
+    public void addBloodBank(BloodBank bloodBank) throws SQLException {
+        String query = "INSERT INTO blood_bank (name, city, blood_type, availability) VALUES (?, ?, ?, ?)";
+        
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setString(1, bloodBank.getName());
+            statement.setString(2, bloodBank.getCity());
+            statement.setString(3, bloodBank.getBloodType());
+            statement.setInt(4, bloodBank.getAvailability());
+            
+            statement.executeUpdate();
+        }
+    }
+
+    // Retrieve a blood bank entry by ID
+    public BloodBank getBloodBankById(int id) throws SQLException {
+        String query = "SELECT * FROM blood_bank WHERE id = ?";
+        BloodBank bloodBank = null;
+        
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                bloodBank = new BloodBank(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("city"),
+                    resultSet.getString("blood_type"),
+                    resultSet.getInt("availability")
+                );
+            }
+        }
+        return bloodBank;
+    }
+
+    // Retrieve all blood bank entries
+    public List<BloodBank> getAllBloodBanks() throws SQLException {
+        String query = "SELECT * FROM blood_bank";
+        List<BloodBank> bloodBanks = new ArrayList<>();
+        
+        try (Connection connection = DatabaseConnection.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+             
+            while (resultSet.next()) {
+                BloodBank bloodBank = new BloodBank(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("city"),
+                    resultSet.getString("blood_type"),
+                    resultSet.getInt("availability")
+                );
+                bloodBanks.add(bloodBank);
+            }
+        }
+        return bloodBanks;
+    }
+
+    // Update blood bank availability
+    public void updateAvailability(int id, int availability) throws SQLException {
+        String query = "UPDATE blood_bank SET availability = ? WHERE id = ?";
+        
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setInt(1, availability);
+            statement.setInt(2, id);
+            
+            statement.executeUpdate();
+        }
+    }
+
+    // Delete a blood bank entry
+    public void deleteBloodBank(int id) throws SQLException {
+        String query = "DELETE FROM blood_bank WHERE id = ?";
+        
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }
+    }
+}
