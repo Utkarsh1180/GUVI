@@ -1,0 +1,54 @@
+-- Create the database for Blood Bank Management System
+CREATE DATABASE blood_bank_system;
+
+-- Switch to the new database
+USE blood_bank_system;
+
+-- Create Users Table (for storing information about users like donors, admins, and recipients)
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,  -- Storing password as a hash
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone_number VARCHAR(15),
+    role ENUM('admin', 'donor', 'recipient') DEFAULT 'donor',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Blood Banks Table (stores information about blood banks)
+CREATE TABLE blood_banks (
+    bank_id INT AUTO_INCREMENT PRIMARY KEY,
+    bank_name VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    address VARCHAR(255),
+    contact_number VARCHAR(15),
+    opening_hours VARCHAR(100),
+    website VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Blood Types Table (stores different blood types)
+CREATE TABLE blood_types (
+    blood_type_id INT AUTO_INCREMENT PRIMARY KEY,
+    blood_type VARCHAR(5) NOT NULL  -- Example: A+, B-, O+, AB+
+);
+
+-- Create the Blood Bank Blood Types Relationship Table (many-to-many relationship between blood banks and blood types)
+CREATE TABLE blood_bank_blood_types (
+    bank_id INT,
+    blood_type_id INT,
+    FOREIGN KEY (bank_id) REFERENCES blood_banks(bank_id) ON DELETE CASCADE,
+    FOREIGN KEY (blood_type_id) REFERENCES blood_types(blood_type_id) ON DELETE CASCADE,
+    PRIMARY KEY (bank_id, blood_type_id)
+);
+
+-- Create Blood Donations Table (stores information about blood donations)
+CREATE TABLE blood_donations (
+    donation_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    bank_id INT,
+    donation_type ENUM('whole blood', 'plasma', 'platelets') NOT NULL,
+    donation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (bank_id) REFERENCES blood_banks(bank_id)
+);
