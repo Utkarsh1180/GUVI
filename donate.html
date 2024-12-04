@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Blood</title>
+    <link rel="stylesheet" href="donatestyle.css">
+</head>
+<body>
+    <div class="container">
+        <div class="donation-box">
+            <h2>Donate Blood</h2>
+            <p>Join us in saving lives by donating blood.</p>
+            <form action="donate.php" method="POST">
+                <div class="input-box">
+                    <input type="text" name="donor_name" required>
+                    <label>Full Name</label>
+                </div>
+                <div class="input-box">
+                    <input type="email" name="donor_email" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" name="blood_group" required>
+                    <label>Blood Group</label>
+                </div>
+                <div class="input-box">
+                    <input type="tel" name="contact" required>
+                    <label>Contact Number</label>
+                </div>
+                <button type="submit">Donate</button>
+                <p>Need blood? <a href="request.html" style="color: #f9d423;">Request Blood</a></p>
+
+            </form>
+        </div>
+    </div>
+  
+</body>
+</html>
