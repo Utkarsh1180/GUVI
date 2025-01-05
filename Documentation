@@ -1,0 +1,208 @@
+Project Documentation: Blood Donation Management System
+1. Introduction
+The Blood Donation Management System is a Java-based web application designed to manage and streamline the process of blood donation. It allows users to register as blood donors, view available donation centers, and schedule donation appointments. The system also provides administrative features for managing donor data and tracking donations. The project is developed using Java, JSP, Servlets, MySQL for the database, and Maven for dependency management.
+
+2. Features
+User Features:
+User Registration:
+
+Donors can create an account by providing necessary personal details such as name, email, age, and blood type.
+Login:
+
+Registered users can log in to manage their profiles and access donation scheduling.
+Profile Management:
+
+Users can update their personal details and view their donation history.
+View Blood Donation Centers:
+
+Users can view a list of available blood donation centers and choose a time for donation.
+Schedule Donation:
+
+Users can schedule an appointment for donating blood at their selected center.
+Admin Features:
+Donor Management:
+
+Admins can view, update, and delete donor records.
+Manage Donation Centers:
+
+Admins can add or edit the details of blood donation centers.
+Track Donations:
+
+Admins can monitor the number of blood donations and manage related records.
+3. Technology Stack
+Frontend:
+
+JSP (JavaServer Pages): For dynamic content rendering.
+HTML/CSS: For the structure and design of the web pages.
+JavaScript: For client-side validation and interactivity.
+Backend:
+
+Java Servlets: Used to handle client requests and manage business logic.
+JSTL (JavaServer Pages Standard Tag Library): For simplifying dynamic content in JSPs.
+Database:
+
+MySQL: For storing user and donation data.
+Build and Dependency Management:
+
+Maven: For managing project dependencies and building the project.
+Testing:
+
+JUnit: For unit testing the service and DAO layers.
+Mockito: For mocking dependencies in unit tests.
+
+4. Project Structure
+The project is organized in the following way:
+BloodDonationManagementSystem/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── com/blooddonation/
+│   │   │   │   ├── model/             # Model classes (User, BloodDonation, etc.)
+│   │   │   │   ├── dao/               # Data access objects (UserDAO, BloodDonationDAO, etc.)
+│   │   │   │   ├── servlet/           # Servlets (RegisterServlet, LoginServlet, etc.)
+│   │   │   ├── util/                  # Utility classes (DBUtil, etc.)
+│   │   └── webapp/
+│   │       ├── WEB-INF/
+│   │       │   └── web.xml            # Web configuration
+│   │       ├── register.jsp           # Registration page
+│   │       ├── login.jsp              # Login page
+│   │       └── profile.jsp            # User profile page
+├── pom.xml                            # Maven build configuration
+└── test/
+    ├── java/
+    │   ├── com/blooddonation/
+    │   │   ├── dao/                   # DAO Layer Tests
+    │   │   │   └── UserDAOTest.java
+    │   │   ├── service/               # Service Layer Tests
+    │   │   │   └── UserServiceTest.java
+
+
+
+Project Documentation: Blood Donation Management System
+1. Introduction
+The Blood Donation Management System is a Java-based web application designed to manage and streamline the process of blood donation. It allows users to register as blood donors, view available donation centers, and schedule donation appointments. The system also provides administrative features for managing donor data and tracking donations. The project is developed using Java, JSP, Servlets, MySQL for the database, and Maven for dependency management.
+
+2. Features
+User Features:
+User Registration:
+
+Donors can create an account by providing necessary personal details such as name, email, age, and blood type.
+Login:
+
+Registered users can log in to manage their profiles and access donation scheduling.
+Profile Management:
+
+Users can update their personal details and view their donation history.
+View Blood Donation Centers:
+
+Users can view a list of available blood donation centers and choose a time for donation.
+Schedule Donation:
+
+Users can schedule an appointment for donating blood at their selected center.
+Admin Features:
+Donor Management:
+
+Admins can view, update, and delete donor records.
+Manage Donation Centers:
+
+Admins can add or edit the details of blood donation centers.
+Track Donations:
+
+Admins can monitor the number of blood donations and manage related records.
+3. Technology Stack
+Frontend:
+
+JSP (JavaServer Pages): For dynamic content rendering.
+HTML/CSS: For the structure and design of the web pages.
+JavaScript: For client-side validation and interactivity.
+Backend:
+
+Java Servlets: Used to handle client requests and manage business logic.
+JSTL (JavaServer Pages Standard Tag Library): For simplifying dynamic content in JSPs.
+Database:
+
+MySQL: For storing user and donation data.
+Build and Dependency Management:
+
+Maven: For managing project dependencies and building the project.
+Testing:
+
+JUnit: For unit testing the service and DAO layers.
+Mockito: For mocking dependencies in unit tests.
+4. Project Structure
+The project is organized in the following way:
+
+bash
+Copy code
+BloodDonationManagementSystem/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── com/blooddonation/
+│   │   │   │   ├── model/             # Model classes (User, BloodDonation, etc.)
+│   │   │   │   ├── dao/               # Data access objects (UserDAO, BloodDonationDAO, etc.)
+│   │   │   │   ├── servlet/           # Servlets (RegisterServlet, LoginServlet, etc.)
+│   │   │   ├── util/                  # Utility classes (DBUtil, etc.)
+│   │   └── webapp/
+│   │       ├── WEB-INF/
+│   │       │   └── web.xml            # Web configuration
+│   │       ├── register.jsp           # Registration page
+│   │       ├── login.jsp              # Login page
+│   │       └── profile.jsp            # User profile page
+├── pom.xml                            # Maven build configuration
+└── test/
+    ├── java/
+    │   ├── com/blooddonation/
+    │   │   ├── dao/                   # DAO Layer Tests
+    │   │   │   └── UserDAOTest.java
+    │   │   ├── service/               # Service Layer Tests
+    │   │   │   └── UserServiceTest.java
+5. System Design
+Database Schema
+The database has tables to store the following information:
+
+Users Table: Stores user data such as name, email, password, age, and blood type.
+Donation Centers Table: Stores information about blood donation centers like name, location, and available slots.
+Donation History Table: Records details about the blood donations made by users.
+Servlet Flow
+RegisterServlet:
+
+Handles user registration by receiving data from the registration form, validating it, and storing it in the database.
+LoginServlet:
+
+Manages user login by verifying the email and password against the stored records.
+ProfileServlet:
+
+Displays and updates the user’s profile information, including their donation history.
+6. How to Run the Project
+Steps to Run the Application:
+Clone the repository from GitHub (if applicable).
+Build the project using Maven by running the following command in the terminal:
+bash
+Copy code
+mvn clean install
+Deploy the generated WAR file to a servlet container like Apache Tomcat.
+Start the server and access the application at:
+bash
+Copy code
+http://localhost:8080/blood-donation-management
+7. Unit Testing
+Unit tests for the service and DAO layers are implemented using JUnit and Mockito. These tests ensure that the database interactions and business logic are functioning correctly.
+
+DAO Layer Tests: Test the methods in DAO classes to ensure that they interact correctly with the database.
+Service Layer Tests: Test the service layer to ensure that it processes data correctly before passing it to the DAO.
+8. Future Enhancements
+Security Enhancements:
+
+Implement password hashing to secure user passwords.
+Email Notifications:
+
+Add functionality to send email notifications for successful registration, appointment scheduling, and donation reminders.
+Mobile App Integration:
+
+Provide a REST API for integrating the system with mobile applications.
+Admin Dashboard Improvements:
+
+Implement advanced reporting and analytics features for donation tracking.
+9. Conclusion
+The Blood Donation Management System is a feature-rich application that helps users easily register as blood donors, schedule donations, and view donation centers. Admins can manage donor records and track donations. With its user-friendly interface and reliable backend, the system can be extended further to include additional features such as notifications, improved security, and mobile app integration.
