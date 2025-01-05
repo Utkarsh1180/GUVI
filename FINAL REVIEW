@@ -1,0 +1,225 @@
+Step 1: Setting Up the Development Environment
+               Install Java JDK
+               Download and install Java JDK from Oracle's website.
+ Set up the JAVA_HOME environment variable:
+           On Windows: C:\Program Files\Java\jdk-<version>
+           On Mac/Linux: /Library/Java/JavaVirtualMachines/jdk-<version>/Contents/Home
+
+ Install Apache Maven
+ 1-Download Apache Maven from Maven's official site.
+ 2-Extract the archive to a directory (e.g., C:\Program Files\Maven or /opt/maven).
+ 3-Set the MAVEN_HOME environment variable:
+     *On Windows: C:\Program Files\Maven\apache-maven-<version>
+     *On Mac/Linux: /opt/maven/apache-maven-<version>
+ 4-Add the Maven bin directory to your PATH variable:
+
+ Install an IDE
+ Eclipse IDE for Java or IntelliJ IDEA are popular choices.
+ Install the Maven plugin (if not already bundled with the IDE).
+
+
+
+Step 2: Create Maven Project
+    Create a new Maven Project in your IDE (Eclipse/IntelliJ).
+    Choose Archetype: maven-webapp (this is important for web applications with servlets).
+    Specify Group ID and Artifact ID (e.g., com.blooddonation).
+    Your pom.xml 
+    <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.blooddonation</groupId>
+    <artifactId>blood-donation-management</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <!-- Servlet API -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JDBC for database connectivity -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.26</version>
+        </dependency>
+
+        <!-- JSTL for JSP -->
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+        <!-- JUnit for testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Mockito for mocking dependencies in tests -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+
+
+Step 3: Create Database and Tables
+      Create a database in MySQL (or any other DBMS) for storing user information and blood donation records.
+
+
+Step 4: Implement the Core Logic
+      1. User Model (POJO)
+               public class User {
+    private int id;
+    private String name;
+    private String email;
+    private String password;
+    private int age;
+    private String bloodType;
+
+    // Getters and setters
+      }
+       2. DAO Layer
+               import java.sql.*;
+
+public class UserDAO {
+    private Connection connection;
+
+    public UserDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    public boolean registerUser(User user) throws SQLException {
+        String query = "INSERT INTO users (name, email, password, age, blood_type) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setInt(4, user.getAge());
+            stmt.setString(5, user.getBloodType());
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public User getUserByEmail(String email) throws SQLException {
+        String query = "SELECT * FROM users WHERE email = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setAge(rs.getInt("age"));
+                user.setBloodType(rs.getString("blood_type"));
+                return user;
+            }
+            return null;
+        }
+    }
+}
+    3. Servlet Layer  
+         @WebServlet("/register")
+public class RegisterServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        int age = Integer.parseInt(request.getParameter("age"));
+        String bloodType = request.getParameter("blood_type");
+
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setAge(age);
+        user.setBloodType(bloodType);
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/blood_donation", "root", "password")) {
+            UserDAO userDAO = new UserDAO(conn);
+            if (userDAO.registerUser(user)) {
+                response.sendRedirect("login.jsp");
+            } else {
+                response.sendRedirect("register.jsp?error=Registration failed");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+Step 5: JSP Pages for Frontend
+1. register.jsp
+<form action="register" method="POST">
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+    <input type="number" name="age" placeholder="Age" required />
+    <input type="text" name="blood_type" placeholder="Blood Type" required />
+    <button type="submit">Register</button>
+</form>
+2. login.jsp
+<form action="login" method="POST">
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+    <button type="submit">Login</button>
+</form>
+
+
+Step 6: Unit Testing with JUnit
+
+import static org.mockito.Mockito.*;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class UserDAOTest {
+    private UserDAO userDAO;
+    private Connection connection;
+
+    @Before
+    public void setUp() {
+        connection = mock(Connection.class);
+        userDAO = new UserDAO(connection);
+    }
+
+    @Test
+    public void testRegisterUser() throws SQLException {
+        User user = new User();
+        user.setName("John Doe");
+        user.setEmail("john@example.com");
+        user.setPassword("password123");
+
+        // Mocking PreparedStatement
+        PreparedStatement stmt = mock(PreparedStatement.class);
+        when(connection.prepareStatement(anyString())).thenReturn(stmt);
+        when(stmt.executeUpdate()).thenReturn(1);
+
+        boolean result = userDAO.registerUser(user);
+        assertTrue(result);
+    }
+}
